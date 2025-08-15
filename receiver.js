@@ -18,7 +18,7 @@ const peer = new Peer({
     host: 'эндлад.рф',
     port: 9547,
     path: "/peer",
-    secure: false,
+    secure: true,
     debug: 3,
     config: {
         iceServers: [
@@ -98,4 +98,5 @@ hangupBtn.addEventListener('click', () => {
         localStream.getTracks().forEach(track => track.stop());
     }
     window.close();
+
 });
