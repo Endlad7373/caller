@@ -22,9 +22,8 @@ let isAudioEnabled = true;
 
 // Инициализация Peer с фиксированным ID
 const peer = new Peer(userId, {
-    host: 'эндлад.рф',
-    port: 9547,
-    path: "/peer",
+    host: "0.peerjs.com",
+    port: 443,
     secure: true,
     debug: 3,
     config: {
@@ -121,3 +120,4 @@ hangupBtn.addEventListener('click', () => {
     window.close();
 
 });
+
