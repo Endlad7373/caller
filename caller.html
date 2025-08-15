@@ -2,63 +2,96 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Video Call</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<script src="https://unpkg.com/peerjs@1.4.7/dist/peerjs.min.js"></script>
+    <title>Caller</title>
     <style>
-        .video-container {
-            position: relative;
-            width: 100%;
-            height: 100vh;
+        body {
+            margin: 0;
+            padding: 0;
+            background: #000;
             overflow: hidden;
-            background: black;
+            height: 100vh;
+            width: 100vw;
+            font-family: Arial, sans-serif;
+            color: white;
+            position: fixed;
         }
-        #local-video, #remote-video {
+        #status {
             position: absolute;
-            object-fit: cover;
+            top: 10px;
+            left: 10px;
+            background: rgba(0,0,0,0.7);
+            padding: 10px;
+            border-radius: 5px;
+            z-index: 100;
+            max-width: 80%;
         }
-        #remote-video {
+        #video-container {
+            position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
         }
+        #remote-video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
         #local-video {
+            position: absolute;
             bottom: 20px;
             right: 20px;
-            width: 30%;
-            max-width: 120px;
+            width: 120px;
+            height: 160px;
             border: 2px solid white;
             border-radius: 8px;
             z-index: 10;
         }
+        #controls {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 15px;
+            z-index: 100;
+        }
+        .control-btn {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: none;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            font-size: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            backdrop-filter: blur(5px);
+        }
+        #hangup-btn {
+            background: #f44336;
+        }
     </style>
 </head>
 <body>
-    <div class="video-container">
+    <div id="video-container">
         <video id="remote-video" autoplay playsinline></video>
         <video id="local-video" autoplay muted playsinline></video>
     </div>
-
-    <script>
-        // Инициализация WebApp Telegram
-        if (window.Telegram && Telegram.WebApp) {
-            Telegram.WebApp.expand();
-            Telegram.WebApp.enableClosingConfirmation();
-        }
-
-        // Обработчики ошибок видео
-        document.getElementById('remote-video').onerror = function() {
-            console.error('Remote video error:', this.error);
-        };
-        
-        document.getElementById('local-video').onerror = function() {
-            console.error('Local video error:', this.error);
-        };
-
-        // Проверка поддержки медиа
-        if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-            alert('Ваш браузер не поддерживает видеозвонки');
-        }
-    </script>
+    <p id="status">Подготовка...</p>
+    <div id="controls">
+        <button id="video-toggle" class="control-btn">🎥</button>
+        <button id="audio-toggle" class="control-btn">🎤</button>
+        <button id="hangup-btn" class="control-btn">📞</button>
+    </div>
+    <script src="https://raw.githubusercontent.com/Endlad7373/caller/refs/heads/main/caller.js"></script>
 </body>
+
 </html>
