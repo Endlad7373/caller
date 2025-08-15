@@ -38,7 +38,7 @@ async function initVideo() {
 // Инициализация PeerJS
 function initPeerConnection(localStream) {
     const peer = new Peer({
-        host: "94.198.220.57",
+        host: "эндлад.рф",
         port: 9547,
         path: "/peer",
         secure: true,
@@ -76,3 +76,4 @@ if (window.Telegram && Telegram.WebApp) {
     Telegram.WebApp.ready();
     Telegram.WebApp.expand();
 }
+
