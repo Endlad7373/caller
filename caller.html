@@ -1,96 +1,51 @@
 <!DOCTYPE html>
-<html>
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-	<script src="https://unpkg.com/peerjs@1.4.7/dist/peerjs.min.js"></script>
-    <title>Caller</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Полноэкранный iframe с передачей параметров</title>
     <style>
-        body {
+        html, body {
             margin: 0;
             padding: 0;
-            background: #000;
+            height: 100%;
             overflow: hidden;
-            height: 100vh;
-            width: 100vw;
-            font-family: Arial, sans-serif;
-            color: white;
-            position: fixed;
         }
-        #status {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            background: rgba(0,0,0,0.7);
-            padding: 10px;
-            border-radius: 5px;
-            z-index: 100;
-            max-width: 80%;
-        }
-        #video-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-        }
-        #remote-video {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        #local-video {
-            position: absolute;
-            bottom: 20px;
-            right: 20px;
-            width: 120px;
-            height: 160px;
-            border: 2px solid white;
-            border-radius: 8px;
-            z-index: 10;
-        }
-        #controls {
-            position: absolute;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            gap: 15px;
-            z-index: 100;
-        }
-        .control-btn {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
+        
+        iframe {
             border: none;
-            background: rgba(255,255,255,0.2);
-            color: white;
-            font-size: 24px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            backdrop-filter: blur(5px);
-        }
-        #hangup-btn {
-            background: #f44336;
+            width: 100%;
+            height: 100%;
+            display: block;
         }
     </style>
 </head>
 <body>
-    <div id="video-container">
-        <video id="remote-video" autoplay playsinline></video>
-        <video id="local-video" autoplay muted playsinline></video>
-    </div>
-    <p id="status">Подготовка...</p>
-    <div id="controls">
-        <button id="video-toggle" class="control-btn">🎥</button>
-        <button id="audio-toggle" class="control-btn">🎤</button>
-        <button id="hangup-btn" class="control-btn">📞</button>
-    </div>
-    <script src="caller.js"></script>
+    <iframe id="fullscreenIframe"></iframe>
+
+    <script>
+        const baseUrl = "http://94.198.220.5:65/caller.html";
+        
+        // Получаем текущие параметры URL
+        const currentParams = window.location.search;
+        
+        // Собираем итоговый URL для iframe
+        let iframeUrl = baseUrl;
+        
+        // Добавляем параметры, если они есть
+        if (currentParams) {
+            // Проверяем, есть ли уже параметры в baseUrl
+            const separator = baseUrl.includes('?') ? '&' : '?';
+            iframeUrl += separator + currentParams.substring(1);
+        }
+        
+        // Устанавливаем URL для iframe
+        document.getElementById('fullscreenIframe').src = iframeUrl;
+        
+        // Дополнительно: обрабатываем изменение hash (якоря)
+        window.addEventListener('hashchange', function() {
+            document.getElementById('fullscreenIframe').src = baseUrl + window.location.search + window.location.hash;
+        });
+    </script>
 </body>
 </html>
